@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="500.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.evertimes.bugts.controller.main.DeveloperController">
+   <children>
+      <TabPane prefHeight="400.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Мои дефекты">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="371.0" prefWidth="720.0">
+                     <children>
+                        <TableView fx:id="assignedTable" layoutX="-2.0" prefHeight="200.0" prefWidth="900.0">
+                          <columns>
+                              <TableColumn fx:id="issueId" text="Id Дефекта" />
+                              <TableColumn fx:id="projectName" prefWidth="126.0" text="Имя Проекта" />
+                              <TableColumn fx:id="testerName" prefWidth="143.0" text="Имя Тестировщика" />
+                              <TableColumn fx:id="statusName" minWidth="0.0" prefWidth="79.0" text="Статус" />
+                              <TableColumn fx:id="priorityName" prefWidth="102.0" text="Приоритет" />
+                              <TableColumn fx:id="dateAssigned" prefWidth="132.0" text="ДатаНазначения" />
+                              <TableColumn prefWidth="72.0" text="Метки" />
+                              <TableColumn fx:id="moreButton" prefWidth="125.0" text="Подробнее:" />
+                          </columns>
+                        </TableView>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Закрытые Дефекты">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+      <Button mnemonicParsing="false" onAction="#exit" text="Выйти" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="2.0" />
+   </children>
+</AnchorPane>

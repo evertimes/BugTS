@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="500.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.evertimes.bugts.controller.main.AdminController">
+    <children>
+        <TabPane prefHeight="400.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab text="Неназначенные дефекты">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="459.0" prefWidth="900.0">
+                            <children>
+                                <VBox prefHeight="459.0" prefWidth="900.0">
+                                    <TableView fx:id="notAssignedTable" layoutX="-2.0" prefHeight="323.0" prefWidth="900.0">
+                                        <columns>
+                                            <TableColumn fx:id="issueId" text="Id Дефекта" />
+                                            <TableColumn fx:id="projectName" prefWidth="126.0" text="Имя Проекта" />
+                                            <TableColumn fx:id="testerName" prefWidth="143.0" text="Имя Тестировщика" />
+                                            <TableColumn fx:id="statusName" minWidth="0.0" prefWidth="79.0" text="Статус" />
+                                            <TableColumn fx:id="priorityName" prefWidth="102.0" text="Приоритет" />
+                                            <TableColumn fx:id="dateRegistered" prefWidth="132.0" text="ДатаНазначения" />
+                                            <TableColumn prefWidth="72.0" text="Метки" />
+                                            <TableColumn fx:id="moreButton" prefWidth="125.0" text="Подробнее:" />
+                                        </columns>
+                                    </TableView>
+                                    <HBox prefHeight="93.0" prefWidth="900.0" spacing="75.0">
+                                        <Button onAction="#seeNewIssues" text="Новые дефекты" />
+                                        <Button onAction="#seeWaitIssues" text="Ожидающие рассмотрения" />
+                                        <Button onAction="#seeClosedIssues" text="Закрытые дефекты" />
+                                        <Button onAction="#seeAllIssues" text="Все дефекты" />
+                              <padding>
+                                 <Insets bottom="10.0" left="80.0" right="10.0" top="20.0" />
+                              </padding>
+                                    </HBox>
+                                </VBox>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab text="Пользователи">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                </Tab>
+                <Tab text="Проекты">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                </Tab>
+                <Tab text="Метки">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+        <Button mnemonicParsing="false" onAction="#exit" text="Выйти" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="2.0" />
+    </children>
+</AnchorPane>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="500.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.evertimes.bugts.controller.main.TesterController">
+    <children>
+        <VBox>
+            <TabPane prefHeight="300.0" prefWidth="650.0" tabClosingPolicy="UNAVAILABLE">
+                <tabs>
+                    <Tab text="Найденные дефекты">
+                        <content>
+                            <AnchorPane maxHeight="280.0" minHeight="0.0" minWidth="0.0" prefHeight="271.0" prefWidth="680.0">
+                                <children>
+                                    <TableView fx:id="foundTable" layoutX="-2.0" prefHeight="268.0" prefWidth="650.0">
+                                        <columns>
+                                            <TableColumn fx:id="issueId" text="Id Дефекта" />
+                                            <TableColumn fx:id="projectName" prefWidth="126.0" text="Имя Проекта" />
+                                            <TableColumn fx:id="statusName" minWidth="0.0" prefWidth="79.0" text="Статус" />
+                                            <TableColumn fx:id="priorityName" prefWidth="102.0" text="Приоритет" />
+                                            <TableColumn fx:id="dateCreated" prefWidth="157.0" text="ДатаНазначения" />
+                                            <TableColumn fx:id="moreButton" prefWidth="96.0" text="Подробнее:" />
+                                        </columns>
+                                    </TableView>
+                                </children>
+                            </AnchorPane>
+                        </content>
+                    </Tab>
+                </tabs>
+            </TabPane>
+            <Label text="Добавление нового дефекта:">
+                <font>
+                    <Font name="System Bold" size="18.0" />
+                </font>
+                <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                </padding>
+            </Label>
+            <HBox spacing="40.0">
+                <VBox>
+                    <Label text="Название проекта" />
+                    <ComboBox fx:id="projectNamePrompt" />
+                </VBox>
+                <VBox>
+                    <Label text="Комментарий" />
+                    <TextArea fx:id="commentaryPrompt" prefHeight="100.0" prefWidth="350.0" />
+                </VBox>
+                <VBox>
+                    <Label />
+                    <Button onAction="#addNewIssue" text="Создать" />
+                </VBox>
+                <padding>
+                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                </padding>
+            </HBox>
+        </VBox>
+        <Button mnemonicParsing="false" onAction="#exit" text="Выйти" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="2.0" />
+    </children>
+</AnchorPane>

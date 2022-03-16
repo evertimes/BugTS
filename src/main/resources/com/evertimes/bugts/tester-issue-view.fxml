@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox maxWidth="740.0" minWidth="740.0" prefHeight="400.0" prefWidth="740.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.evertimes.bugts.controller.issue.TesterIssueController">
+    <HBox prefHeight="67.0" prefWidth="620.0" spacing="20.0">
+        <VBox>
+            <Label prefHeight="17.0" prefWidth="65.0" text="IDДефекта" />
+            <TextField fx:id="issueID" editable="false" maxHeight="5.0" minHeight="25.0" minWidth="60.0" prefHeight="5.0" prefWidth="60.0">
+            </TextField>
+        </VBox>
+        <VBox>
+            <Label layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="85.0" text="Имя Проекта" />
+            <TextField fx:id="projectName" editable="false" maxHeight="25.0" maxWidth="120.0" minHeight="25.0" minWidth="90.0" prefHeight="25.0" prefWidth="120.0" />
+        </VBox>
+        <VBox>
+            <Label layoutX="95.0" layoutY="10.0" prefHeight="17.0" prefWidth="110.0" text="Статус" />
+            <TextField fx:id="status" editable="false" minHeight="25.0" minWidth="90.0" prefHeight="25.0" prefWidth="90.0" />
+        </VBox>
+        <VBox>
+            <Label layoutX="95.0" layoutY="10.0" prefHeight="17.0" prefWidth="110.0" text="Приоритет" />
+            <TextField fx:id="priority" editable="false" layoutX="170.0" layoutY="70.0" maxHeight="25.0" minHeight="25.0" minWidth="80.0" prefHeight="25.0" prefWidth="80.0" />
+        </VBox>
+        <VBox>
+            <Label layoutX="95.0" layoutY="10.0" prefHeight="17.0" prefWidth="110.0" text="Дата создания" />
+            <TextField fx:id="dateCreated" editable="false" layoutX="330.0" layoutY="70.0" maxHeight="25.0" minHeight="25.0" minWidth="110.0" prefHeight="25.0" prefWidth="175.0" />
+        </VBox>
+        <VBox.margin>
+            <Insets />
+        </VBox.margin>
+        <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+        </padding>
+    </HBox>
+    <HBox fx:id="labels" spacing="70.0">
+        <Label text="Метки:" />
+        <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+        </padding>
+    </HBox>
+    <Separator />
+    <Label text="Комментарии:">
+        <font>
+            <Font name="Verdana" size="18.0" />
+        </font>
+        <padding>
+            <Insets bottom="5.0" left="20.0" right="5.0" top="5.0" />
+        </padding>
+    </Label>
+    <ListView fx:id="commentView" maxWidth="740.0" minWidth="740.0" prefHeight="175.0" prefWidth="740.0" />
+    <HBox>
+        <TextField fx:id="commentField" prefHeight="25.0" prefWidth="661.0" />
+        <Button onAction="#sendComment" text="Отправить" />
+    </HBox>
+</VBox>

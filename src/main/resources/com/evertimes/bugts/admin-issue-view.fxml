@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox maxWidth="740.0" minWidth="740.0" prefHeight="499.0" prefWidth="740.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.evertimes.bugts.controller.issue.AdminIssueController">
+    <HBox prefHeight="67.0" prefWidth="620.0" spacing="40.0">
+        <VBox prefWidth="165.0">
+            <Label prefHeight="18.0" prefWidth="79.0" text="IDДефекта" />
+            <TextField fx:id="issueID" editable="false" maxHeight="25.0" minHeight="25.0" minWidth="60.0" prefHeight="25.0" prefWidth="187.0">
+            </TextField>
+        </VBox>
+        <VBox>
+            <Label layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="85.0" text="Имя Проекта" />
+            <TextField fx:id="projectName" editable="false" maxHeight="25.0" maxWidth="209.0" minHeight="25.0" minWidth="90.0" prefHeight="25.0" prefWidth="205.0" />
+        </VBox>
+        <VBox>
+            <Label layoutX="95.0" layoutY="10.0" prefHeight="18.0" prefWidth="136.0" text="Имя Тестировщика" />
+            <TextField fx:id="testerName" editable="false" maxHeight="25.0" minHeight="25.0" minWidth="110.0" prefHeight="25.0" prefWidth="231.0" />
+        </VBox>
+        <VBox.margin>
+            <Insets />
+        </VBox.margin>
+        <padding>
+            <Insets left="20.0" right="20.0" top="20.0" />
+        </padding>
+    </HBox>
+    <HBox prefHeight="67.0" prefWidth="620.0" spacing="40.0">
+        <VBox>
+            <Label layoutX="95.0" layoutY="10.0" prefHeight="17.0" prefWidth="110.0" text="Статус" />
+            <ComboBox fx:id="status" minHeight="25.0" minWidth="90.0" prefHeight="25.0" prefWidth="165.0" />
+        </VBox>
+        <VBox>
+            <Label layoutX="95.0" layoutY="10.0" prefHeight="17.0" prefWidth="110.0" text="Приоритет" />
+            <ComboBox fx:id="priority" layoutX="170.0" layoutY="70.0" maxHeight="25.0" minHeight="25.0" minWidth="80.0" prefHeight="25.0" prefWidth="205.0" />
+        </VBox>
+        <VBox>
+            <Label layoutX="95.0" layoutY="10.0" prefHeight="18.0" prefWidth="152.0" text="Дата назначения" />
+            <TextField fx:id="dateAssigned" editable="false" layoutX="330.0" layoutY="70.0" maxHeight="25.0" minHeight="25.0" minWidth="110.0" prefHeight="25.0" prefWidth="230.0" />
+        </VBox>
+        <VBox.margin>
+            <Insets />
+        </VBox.margin>
+        <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+        </padding>
+    </HBox>
+    <HBox alignment="CENTER" spacing="20.0">
+        <Label text="Назначен:">
+         <padding>
+            <Insets left="20.0" />
+         </padding></Label>
+        <ComboBox fx:id="assignee" prefHeight="26.0" prefWidth="264.0" />
+    </HBox>
+    <Button text="Сохранить">
+      <VBox.margin>
+         <Insets bottom="15.0" left="610.0" right="15.0" top="15.0" />
+      </VBox.margin></Button>
+    <HBox fx:id="labels" spacing="50.0">
+        <VBox>
+            <Label prefHeight="18.0" prefWidth="56.0" text="Метки:" />
+        </VBox>
+        <VBox.margin>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+        </VBox.margin>
+        <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+        </padding>
+    </HBox>
+    <Separator />
+    <Label text="Комментарии:">
+        <font>
+            <Font name="Verdana" size="18.0" />
+        </font>
+        <padding>
+            <Insets bottom="5.0" left="20.0" right="5.0" top="5.0" />
+        </padding>
+    </Label>
+    <ListView fx:id="commentView" maxWidth="740.0" minWidth="740.0" prefHeight="175.0" prefWidth="740.0" />
+    <HBox>
+        <TextField fx:id="commentField" prefHeight="25.0" prefWidth="661.0" />
+        <Button onAction="#sendComment" text="Отправить" />
+    </HBox>
+</VBox>

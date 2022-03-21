@@ -46,7 +46,7 @@ public class Runner extends Application {
             fxmlLoader = new FXMLLoader(myUrl);
         } else if (fxml.compareTo("tester-view") == 0) {
             stageAccessor.setTitle("Консоль тестировщика");
-            stageAccessor.setWidth(670);
+            stageAccessor.setWidth(650);
             stageAccessor.setHeight(550);
             URL myUrl = Runner.class.getResource(fxml + ".fxml");
             fxmlLoader = new FXMLLoader(myUrl);

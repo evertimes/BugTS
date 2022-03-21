@@ -37,9 +37,6 @@ public class AdminController implements Initializable {
     public TableColumn priorityName;
     public TableColumn moreButton;
     public TableColumn dateRegistered;
-    public TableColumn dateRegisteredWait;
-    public TableView notAssignedTableWait;
-    public TableColumn issueIdWait;
 
     MsSqlDAO dao = new MsSqlDAO();
 
@@ -64,10 +61,10 @@ public class AdminController implements Initializable {
 
     }
 
-    Callback<TableColumn<DeveloperIssue, Void>, TableCell<DeveloperIssue, Void>> cellFactory = new Callback<>() {
+    Callback<TableColumn<AdminIssue, Void>, TableCell<AdminIssue, Void>> cellFactory = new Callback<>() {
         @Override
-        public TableCell<DeveloperIssue, Void> call(final TableColumn<DeveloperIssue, Void> param) {
-            return new TableCell<DeveloperIssue, Void>() {
+        public TableCell<AdminIssue, Void> call(final TableColumn<AdminIssue, Void> param) {
+            return new TableCell<AdminIssue, Void>() {
 
                 private final Button btn = new Button("Подробнее...");
 
@@ -76,12 +73,12 @@ public class AdminController implements Initializable {
                     btn.setBorder(Border.EMPTY);
                     btn.setAlignment(Pos.CENTER);
                     btn.setOnAction((ActionEvent event) -> {
-                        DeveloperIssue data = getTableView().getItems().get(getIndex());
-                        Session.developerIssue = data;
+                        AdminIssue data = getTableView().getItems().get(getIndex());
+                        Session.adminIssue = data;
                         Stage dialog = new Stage();
-                        FXMLLoader fxmlLoader = new FXMLLoader(Runner.class.getResource("developer-issue-view.fxml"));
+                        FXMLLoader fxmlLoader = new FXMLLoader(Runner.class.getResource("admin-issue-view.fxml"));
                         try {
-                            Scene scene = new Scene(fxmlLoader.load(), 740, 400);
+                            Scene scene = new Scene(fxmlLoader.load(), 740, 500);
                             dialog.setScene(scene);
                             dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
                             dialog.initModality(Modality.APPLICATION_MODAL);

@@ -1,12 +1,9 @@
 package com.evertimes.bugts.model.dao;
 
-import com.evertimes.bugts.model.dto.Role;
-import com.evertimes.bugts.model.dto.Commentary;
+import com.evertimes.bugts.model.dto.*;
 import com.evertimes.bugts.model.dto.issue.AdminIssue;
 import com.evertimes.bugts.model.dto.issue.DeveloperIssue;
-import com.evertimes.bugts.model.dto.Label;
 import com.evertimes.bugts.model.dto.issue.TesterIssue;
-import com.evertimes.bugts.model.dto.User;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -225,9 +222,9 @@ public class MsSqlDAO {
                                 "join Приоритеты on Дефекты.IDПриоритета = Приоритеты.IDПриоритета " +
                                 "WHERE Дефекты.IDСтатуса = 1 AND " +
                                 "Дефекты.IDПроекта " +
-                                "IN (SELECT Дефекты.IDПроекта " +
+                                "IN (SELECT IDПроекта " +
                                 "from ПользователиВПроектах " +
-                                "WHERE Пользователи.IDПользователя = ?)")
+                                "WHERE IDПользователя = ?)")
         ) {
             statement.setInt(1, adminID);
             try (ResultSet rs = statement.executeQuery()) {
@@ -261,9 +258,9 @@ public class MsSqlDAO {
                                 "join Статусы on Дефекты.IDСтатуса = Статусы.IDСтатуса " +
                                 "join Приоритеты on Дефекты.IDПриоритета = Приоритеты.IDПриоритета " +
                                 "WHERE Дефекты.IDПроекта " +
-                                "IN (SELECT Дефекты.IDПроекта " +
+                                "IN (SELECT IDПроекта " +
                                 "from ПользователиВПроектах " +
-                                "WHERE Пользователи.IDПользователя = ?)");
+                                "WHERE IDПользователя = ?)");
         ) {
             statement.setInt(1, adminID);
             try (ResultSet rs = statement.executeQuery()) {
@@ -297,9 +294,9 @@ public class MsSqlDAO {
                                 "join Приоритеты on Дефекты.IDПриоритета = Приоритеты.IDПриоритета " +
                                 "WHERE Дефекты.IDСтатуса BETWEEN 3 AND 6 " +
                                 "AND Дефекты.IDПроекта " +
-                                "IN (SELECT Дефекты.IDПроекта " +
+                                "IN (SELECT IDПроекта " +
                                 "from ПользователиВПроектах " +
-                                "WHERE Пользователи.IDПользователя = ?)");
+                                "WHERE IDПользователя = ?)");
         ) {
             statement.setInt(1, adminID);
             try (ResultSet rs = statement.executeQuery()) {
@@ -333,9 +330,9 @@ public class MsSqlDAO {
                                 "join Приоритеты on Дефекты.IDПриоритета = Приоритеты.IDПриоритета " +
                                 "WHERE Дефекты.IDСтатуса=7 " +
                                 "AND Дефекты.IDПроекта " +
-                                "IN (SELECT Дефекты.IDПроекта " +
+                                "IN (SELECT IDПроекта " +
                                 "from ПользователиВПроектах " +
-                                "WHERE Пользователи.IDПользователя = ?)");
+                                "WHERE IDПользователя = ?)");
         ) {
             statement.setInt(1, adminID);
             try (ResultSet rs = statement.executeQuery()) {
@@ -362,6 +359,47 @@ public class MsSqlDAO {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    public List<ProjectDev> getProjectDevs(String projectName){
+        List<ProjectDev> projectDevs = new ArrayList<>();
+        try(PreparedStatement ps = connection.prepareStatement("" +
+                "SELECT ПВП.IDПользователя,П.ФИО " +
+                "from Разработчики " +
+                "join Пользователи П on Разработчики.IDПользователя = П.IDПользователя " +
+                "join ПользователиВПроектах ПВП on П.IDПользователя = ПВП.IDПользователя " +
+                "join Проекты on ПВП.IDПроекта = Проекты.IDПроекта " +
+                "WHERE Проекты.ИмяПроекта = ?")) {
+            ps.setString(1,projectName);
+            try(ResultSet rs = ps.executeQuery()){
+                while(rs.next()) {
+                    projectDevs.add(new ProjectDev(rs.getInt(1),
+                            rs.getString(2)));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return projectDevs;
+    }
+
+    public ProjectDev getCurrentDev(int issueID){
+        try(PreparedStatement ps = connection.prepareStatement("" +
+                "SELECT РРД.IDПользователя,Пользователи.ФИО " +
+                "from Пользователи " +
+                "    join РазработчикиРешающиеДефекты РРД " +
+                "on Пользователи.IDПользователя = РРД.IDПользователя " +
+                "WHERE РРД.IDДефекта = ?")){
+            ps.setInt(1,issueID);
+            try(ResultSet rs = ps.executeQuery()){
+                if(rs.next()){
+                    return new ProjectDev(rs.getInt(1),rs.getString(2));
+                }
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void addNewUser(User user, Role role) {

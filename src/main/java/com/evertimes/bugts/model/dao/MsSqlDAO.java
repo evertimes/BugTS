@@ -361,18 +361,18 @@ public class MsSqlDAO {
         }
     }
 
-    public List<ProjectDev> getProjectDevs(String projectName){
+    public List<ProjectDev> getProjectDevs(String projectName) {
         List<ProjectDev> projectDevs = new ArrayList<>();
-        try(PreparedStatement ps = connection.prepareStatement("" +
+        try (PreparedStatement ps = connection.prepareStatement("" +
                 "SELECT ПВП.IDПользователя,П.ФИО " +
                 "from Разработчики " +
                 "join Пользователи П on Разработчики.IDПользователя = П.IDПользователя " +
                 "join ПользователиВПроектах ПВП on П.IDПользователя = ПВП.IDПользователя " +
                 "join Проекты on ПВП.IDПроекта = Проекты.IDПроекта " +
                 "WHERE Проекты.ИмяПроекта = ?")) {
-            ps.setString(1,projectName);
-            try(ResultSet rs = ps.executeQuery()){
-                while(rs.next()) {
+            ps.setString(1, projectName);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
                     projectDevs.add(new ProjectDev(rs.getInt(1),
                             rs.getString(2)));
                 }
@@ -383,23 +383,76 @@ public class MsSqlDAO {
         return projectDevs;
     }
 
-    public ProjectDev getCurrentDev(int issueID){
-        try(PreparedStatement ps = connection.prepareStatement("" +
+    public ProjectDev getCurrentDev(int issueID) {
+        try (PreparedStatement ps = connection.prepareStatement("" +
                 "SELECT РРД.IDПользователя,Пользователи.ФИО " +
                 "from Пользователи " +
                 "    join РазработчикиРешающиеДефекты РРД " +
                 "on Пользователи.IDПользователя = РРД.IDПользователя " +
-                "WHERE РРД.IDДефекта = ?")){
-            ps.setInt(1,issueID);
-            try(ResultSet rs = ps.executeQuery()){
-                if(rs.next()){
-                    return new ProjectDev(rs.getInt(1),rs.getString(2));
+                "WHERE РРД.IDДефекта = ?")) {
+            ps.setInt(1, issueID);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new ProjectDev(rs.getInt(1), rs.getString(2));
                 }
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<Priority> getAllPriorities() {
+        List<Priority> priorities = new ArrayList<>();
+        try (PreparedStatement ps = connection.prepareStatement(
+                "SELECT IDПриоритета, ИмяПриоритета from Приоритеты"
+        ); ResultSet rs = ps.executeQuery()) {
+            while(rs.next()){
+                priorities.add(new Priority(rs.getInt(1),rs.getString(2)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return priorities;
+    }
+    public List<Status> getAllStatuses() {
+        List<Status> statuses = new ArrayList<>();
+        try (PreparedStatement ps = connection.prepareStatement(
+                "SELECT IDСтатуса, ИмяСтатуса from Статусы"
+        ); ResultSet rs = ps.executeQuery()) {
+            while(rs.next()){
+                statuses.add(new Status(rs.getInt(1),rs.getString(2)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return statuses;
+    }
+
+    public void updateAdminIssue(int issueID, String developerName,int statusID,int priorityID){
+        try(CallableStatement ps = connection.prepareCall("{call updateAdminIssue (?,?,?,?)}")){
+            ps.setInt(1,issueID);
+            System.out.println("LOG dao issueID "+ issueID);
+            ps.setString(2,developerName);
+            System.out.println("LOG dao " + statusID);
+            ps.setInt(3,statusID);
+            ps.setInt(4,priorityID);
+            System.out.println("Updated lines= "+ ps.executeUpdate());
+        }catch (SQLException e){
+                e.printStackTrace();
+        }
+    }
+
+    public void setIssueStatus(int issueID, int issueStatus){
+        try(PreparedStatement ps = connection.prepareStatement(
+                "UPDATE Дефекты SET IDСтатуса = ? WHERE IDДефекта = ?"
+        )){
+            ps.setInt(1,issueStatus);
+            ps.setInt(2,issueID);
+            ps.executeUpdate();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     public void addNewUser(User user, Role role) {
@@ -412,10 +465,6 @@ public class MsSqlDAO {
 
     public void getMyProjects() {
 
-    }
-
-    public List<DeveloperIssue> getUnassignedIssues() {
-        return null;
     }
 
     public void assignIssueToDeveloper(int issueId, int developerId) {

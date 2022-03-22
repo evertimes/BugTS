@@ -2,7 +2,7 @@ package com.evertimes.bugts.controller.issue;
 
 import com.evertimes.bugts.controller.utils.Session;
 import com.evertimes.bugts.model.dao.MsSqlDAO;
-import com.evertimes.bugts.model.dto.Commentary;
+import com.evertimes.bugts.model.dto.*;
 import com.evertimes.bugts.model.dto.Label;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -23,10 +23,11 @@ public class AdminIssueController implements Initializable {
     public TextField issueID;
     public TextField projectName;
     public TextField testerName;
-    public ComboBox status;
-    public ComboBox priority;
+    public ComboBox<Status> status;
+    public ComboBox<Priority> priority;
     public TextField dateAssigned;
-    public ComboBox assignee;
+    public ComboBox<ProjectDev> assignee;
+    public ComboBox labelsToAdd;
 
     private MsSqlDAO dao;
 
@@ -37,7 +38,10 @@ public class AdminIssueController implements Initializable {
         refreshIssue();
         addComments();
         addDevs();
+        addPriorities();
+        addStatuses();
     }
+
 
     public void sendComment(ActionEvent actionEvent) {
         dao.addCommentary(Session.adminIssue.getIssueID(),
@@ -50,16 +54,34 @@ public class AdminIssueController implements Initializable {
         issueID.setText(Integer.toString(Session.adminIssue.getIssueID()));
         projectName.setText(Session.adminIssue.getProjectName());
         testerName.setText(Session.adminIssue.getTesterName());
-        status.getItems().add(Session.adminIssue.getStatusName());
-        status.getSelectionModel().select(0);
-        priority.getItems().add(Session.adminIssue.getPriorityName());
-        priority.getSelectionModel().select(0);
         dateAssigned.setText(Session.adminIssue.getDateRegistered().toString());
     }
 
-    private void addDevs(){
+    private void addDevs() {
         assignee.getItems().addAll(dao.getProjectDevs(Session.adminIssue.getProjectName()));
         assignee.getSelectionModel().select(dao.getCurrentDev(Session.adminIssue.getIssueID()));
+    }
+
+    private void addPriorities() {
+        List<Priority> priorities = dao.getAllPriorities();
+        priority.getItems().addAll(priorities);
+        for (Priority priorityObj : priorities) {
+            if (priorityObj.getPriorityName().equals(Session.adminIssue.getPriorityName())) {
+                priority.getSelectionModel().select(priorityObj);
+                break;
+            }
+        }
+    }
+
+    private void addStatuses() {
+        List<Status> statuses = dao.getAllStatuses();
+        status.getItems().addAll(statuses);
+        for (Status statusObj : statuses) {
+            if (statusObj.getStatusName().equals(Session.adminIssue.getStatusName())) {
+                status.getSelectionModel().select(statusObj);
+                break;
+            }
+        }
     }
 
     private void addComments() {
@@ -82,5 +104,16 @@ public class AdminIssueController implements Initializable {
             labels.getChildren().add(hll);
         }
 
+    }
+
+    public void updateIssue(ActionEvent actionEvent) {
+        System.out.println("LOG controller " + status.getSelectionModel().getSelectedItem().getStatusID());
+        dao.updateAdminIssue(Session.adminIssue.getIssueID(),
+                assignee.getSelectionModel().getSelectedItem().getUserName(),
+                status.getSelectionModel().getSelectedItem().getStatusID(),
+                priority.getSelectionModel().getSelectedItem().getPriorityID());
+    }
+
+    public void addLabel(ActionEvent actionEvent) {
     }
 }

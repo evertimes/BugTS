@@ -1,3 +1,7 @@
+use master;
+GO
+DROP DATABASE BugTracker
+GO
 CREATE DATABASE BugTracker
 GO
 USE BugTracker
@@ -347,108 +351,108 @@ VALUES (8, N'Осипов Анатолий Геннадьевич', '+7(446) 756
 INSERT INTO Пользователи
 VALUES (9, N'Анисимов Леонид Антонинович', '+7(246) 820-0459', '22 Blencathra Street, Keswick,CA12 4HP');
 INSERT INTO Пользователи
-VALUES (10, N'Соловьёв Август Пантелеймонович', '+7(605) 328-4684', '10 Lowry Hill Road, Carlisle,CA3 0DF');
+VALUES (10, N'Витальев Август Пантелеймонович', '+7(605) 328-4684', '10 Lowry Hill Road, Carlisle,CA3 0DF');
 INSERT INTO Пользователи
-VALUES (11, N'Орехов Моисей Вячеславович', '+7(550) 300-2204', 'Grange House, Townhead, Alston,CA9 3SL');
+VALUES (11, N'Андреев Моисей Вячеславович', '+7(550) 300-2204', 'Grange House, Townhead, Alston,CA9 3SL');
 INSERT INTO Пользователи
-VALUES (12, N'Пахомов Олег Германнович', '+7(998) 420-9912', '13 Kentmere Grove, Carlisle,CA2 6JD');
+VALUES (12, N'Максимов Олег Германнович', '+7(998) 420-9912', '13 Kentmere Grove, Carlisle,CA2 6JD');
 INSERT INTO Пользователи
 VALUES (13, N'Блинов Кондратий Митрофанович', '+7(925) 351-2752', '3 Duke Street, Whitehaven,CA28 7EW');
 INSERT INTO Пользователи
-VALUES (14, N'Данилов Георгий Альбертович', '+7(382) 445-8121', '18 Ashness Close, Whitehaven,CA28 9RR');
+VALUES (14, N'Аристархов Георгий Альбертович', '+7(382) 445-8121', '18 Ashness Close, Whitehaven,CA28 9RR');
 INSERT INTO Пользователи
-VALUES (15, N'Родионов Август Вадимович', '+7(661) 624-8612', 'Grange House, Townhead, Alston,CA9 3SL');
+VALUES (15, N'Родин Август Вадимович', '+7(661) 624-8612', 'Grange House, Townhead, Alston,CA9 3SL');
 INSERT INTO Пользователи
-VALUES (16, N'Игнатьев Митрофан Валерьевич', '+7(542) 695-5340', 'Fell View, Warcop,CA16 6PR');
+VALUES (16, N'Комаров Митрофан Валерьевич', '+7(542) 695-5340', 'Fell View, Warcop,CA16 6PR');
 INSERT INTO Пользователи
-VALUES (17, N'Чернов Степан Эдуардович', '+7(605) 328-4684', 'Owlsadean, Tebay,CA10 3SR');
+VALUES (17, N'Олегов Степан Эдуардович', '+7(605) 328-4684', 'Owlsadean, Tebay,CA10 3SR');
 INSERT INTO Пользователи
-VALUES (18, N'Исаков Мечислав Игнатьевич', '+7(401) 691-3795',
+VALUES (18, N'Павлов Мечислав Игнатьевич', '+7(401) 691-3795',
         'Unit 1, The Glass House, Auction Mart Lane, Penrith,CA11 7JG');
 INSERT INTO Пользователи
-VALUES (19, N'Терентьев Аркадий Михаилович', '+7(609) 696-6403', '47 Newtown Road, Carlisle,CA2 7JA');
+VALUES (19, N'Терешин Аркадий Михаилович', '+7(609) 696-6403', '47 Newtown Road, Carlisle,CA2 7JA');
 INSERT INTO Пользователи
-VALUES (20, N'Родионов Август Вадимович', '+7(219) 222-3187', 'The Old Byre, Kirkoswald,CA10 1ER');
+VALUES (20, N'Дербуков Август Вадимович', '+7(219) 222-3187', 'The Old Byre, Kirkoswald,CA10 1ER');
 INSERT INTO Пользователи
-VALUES (21, N'Беляев Алан Вячеславович', '+7(290) 318-1861', '57 Sarsfield Road, Workington,CA14 5BZ');
+VALUES (21, N'Уткин Алан Вячеславович', '+7(290) 318-1861', '57 Sarsfield Road, Workington,CA14 5BZ');
 INSERT INTO Пользователи
-VALUES (22, N'Буров Клим Юлианович', '+7(241) 922-9296', '6 Hothfield Court, Appleby-In-Westmorland,CA16 6JD');
+VALUES (22, N'Орлов Клим Юлианович', '+7(241) 922-9296', '6 Hothfield Court, Appleby-In-Westmorland,CA16 6JD');
 INSERT INTO Пользователи
 VALUES (23, N'Воронцов Иннокентий Федорович', '+7(583) 209-2250', '4 Castle Mount, Armathwaite,CA4 9PE');
 INSERT INTO Пользователи
-VALUES (24, N'Лаврентьев Герасим Алексеевич', '+7(609) 696-6403', '46A - 48A Queen Street, Aspatria,CA7 3BB');
+VALUES (24, N'Астахов Герасим Алексеевич', '+7(609) 696-6403', '46A - 48A Queen Street, Aspatria,CA7 3BB');
 INSERT INTO Пользователи
-VALUES (25, N'Сафонов Тимофей Ярославович', '+7(669) 659-0050', '2 Chaucer Road, Workington,CA14 4HH');
+VALUES (25, N'Польщиков Тимофей Ярославович', '+7(669) 659-0050', '2 Chaucer Road, Workington,CA14 4HH');
 INSERT INTO Пользователи
-VALUES (26, N'Дмитриев Эрнест Куприянович', '+7(605) 328-4684', 'Site 6C North Lakes Business Park, Flusco,CA11 0JG');
+VALUES (26, N'Егоров Эрнест Куприянович', '+7(605) 328-4684', 'Site 6C North Lakes Business Park, Flusco,CA11 0JG');
 INSERT INTO Пользователи
-VALUES (27, N'Егоров Гордей Георгьевич', '+7(456) 959-7844', '18 Ashness Close, Whitehaven,CA28 9RR');
+VALUES (27, N'Николаев Гордей Георгьевич', '+7(456) 959-7844', '18 Ashness Close, Whitehaven,CA28 9RR');
 INSERT INTO Пользователи
-VALUES (28, N'Дмитриев Эрнест Куприянович', '+7(248) 968-5701', 'Owlsadean, Tebay,CA10 3SR');
+VALUES (28, N'Витин Эрнест Куприянович', '+7(248) 968-5701', 'Owlsadean, Tebay,CA10 3SR');
 INSERT INTO Пользователи
-VALUES (29, N'Нестеров Владислав Глебович', '+7(682) 675-3107', '1 Apple Tree Close, Durdar,CA2 4TQ');
+VALUES (29, N'Ларин Владислав Глебович', '+7(682) 675-3107', '1 Apple Tree Close, Durdar,CA2 4TQ');
 INSERT INTO Пользователи
-VALUES (30, N'Терентьев Аркадий Михаилович', '+7(998) 294-2793', '2 Clifford Road, Penrith,CA11 8PW');
+VALUES (30, N'Акберов Аркадий Михаилович', '+7(998) 294-2793', '2 Clifford Road, Penrith,CA11 8PW');
 INSERT INTO Пользователи
-VALUES (31, N'Чернов Степан Эдуардович', '+7(824) 526-3518', '1 Apple Tree Close, Durdar,CA2 4TQ');
+VALUES (31, N'Чернецов Степан Эдуардович', '+7(824) 526-3518', '1 Apple Tree Close, Durdar,CA2 4TQ');
 INSERT INTO Пользователи
-VALUES (32, N'Исаков Мечислав Игнатьевич', '+7(607) 716-2972', '1 Clint View, Croglin,CA4 9RU');
+VALUES (32, N'Капранов Мечислав Игнатьевич', '+7(607) 716-2972', '1 Clint View, Croglin,CA4 9RU');
 INSERT INTO Пользователи
-VALUES (33, N'Кузнецов Кассиан Филатович', '+7(790) 477-2419', '1 Apple Tree Close, Durdar,CA2 4TQ');
+VALUES (33, N'Кузнечин Кассиан Филатович', '+7(790) 477-2419', '1 Apple Tree Close, Durdar,CA2 4TQ');
 INSERT INTO Пользователи
-VALUES (34, N'Осипов Анатолий Геннадьевич', '+7(716) 275-9579', '31 Hall Park View, Workington,CA14 4AG');
+VALUES (34, N'Цымбалюк Анатолий Геннадьевич', '+7(716) 275-9579', '31 Hall Park View, Workington,CA14 4AG');
 INSERT INTO Пользователи
-VALUES (35, N'Наумов Ираклий Аркадьевич', '+7(682) 675-3107', '13 Kentmere Grove, Carlisle,CA2 6JD');
+VALUES (35, N'Котов Ираклий Аркадьевич', '+7(682) 675-3107', '13 Kentmere Grove, Carlisle,CA2 6JD');
 INSERT INTO Пользователи
-VALUES (36, N'Соловьёв Август Пантелеймонович', '+7(816) 616-4910', '9 Staunton Drive, Carlisle,CA1 3GU');
+VALUES (36, N'Собакин Август Пантелеймонович', '+7(816) 616-4910', '9 Staunton Drive, Carlisle,CA1 3GU');
 INSERT INTO Пользователи
-VALUES (37, N'Лобанов Альфред Авдеевич', '+7(669) 659-0050', 'Owlsadean, Tebay,CA10 3SR');
+VALUES (37, N'Козлечков Альфред Авдеевич', '+7(669) 659-0050', 'Owlsadean, Tebay,CA10 3SR');
 INSERT INTO Пользователи
-VALUES (38, N'Комиссаров Арнольд Глебович', '+7(295) 376-0235', 'Grange House, Townhead, Alston,CA9 3SL');
+VALUES (38, N'Гусев Арнольд Глебович', '+7(295) 376-0235', 'Grange House, Townhead, Alston,CA9 3SL');
 INSERT INTO Пользователи
-VALUES (39, N'Галкин Исаак Иванович', '+7(998) 294-2793', '20 Hawkshead Avenue, Workington,CA14 3HP');
+VALUES (39, N'Волков Исаак Иванович', '+7(998) 294-2793', '20 Hawkshead Avenue, Workington,CA14 3HP');
 INSERT INTO Пользователи
-VALUES (40, N'Фадеев Вениамин Робертович', '+7(577) 413-4386', '4 Castle Mount, Armathwaite,CA4 9PE');
+VALUES (40, N'Калинкевич Вениамин Робертович', '+7(577) 413-4386', '4 Castle Mount, Armathwaite,CA4 9PE');
 INSERT INTO Пользователи
-VALUES (41, N'Анисимов Олег Дамирович', '+7(816) 616-4910', '8 King George Gardens, Warwick Bridge,CA4 8FN');
+VALUES (41, N'Овсиенко Олег Дамирович', '+7(816) 616-4910', '8 King George Gardens, Warwick Bridge,CA4 8FN');
 INSERT INTO Пользователи
-VALUES (42, N'Егоров Гордей Георгьевич', '+7(984) 331-9414', 'Fell View, Warcop,CA16 6PR');
+VALUES (42, N'Бокарев Гордей Георгьевич', '+7(984) 331-9414', 'Fell View, Warcop,CA16 6PR');
 INSERT INTO Пользователи
-VALUES (43, N'Ширяев Вальтер Евгеньевич', '+7(682) 675-3107', '22 Blencathra Street, Keswick,CA12 4HP');
+VALUES (43, N'Артюшкин Вальтер Евгеньевич', '+7(682) 675-3107', '22 Blencathra Street, Keswick,CA12 4HP');
 INSERT INTO Пользователи
-VALUES (44, N'Лаврентьев Станислав Созонович', '+7(605) 328-4684', '1 Clint View, Croglin,CA4 9RU');
+VALUES (44, N'Прошин Станислав Созонович', '+7(605) 328-4684', '1 Clint View, Croglin,CA4 9RU');
 INSERT INTO Пользователи
-VALUES (45, N'Некрасов Назарий Мэлорович', '+7(246) 820-0459', 'Chapel Burn Farm, Low Row,CA8 2LY');
+VALUES (45, N'Булавин Назарий Мэлорович', '+7(246) 820-0459', 'Chapel Burn Farm, Low Row,CA8 2LY');
 INSERT INTO Пользователи
-VALUES (46, N'Комиссаров Арнольд Глебович', '+7(619) 706-5766', '20 Sycamore Drive, Longtown,CA6 5NZ');
+VALUES (46, N'Лушков Арнольд Глебович', '+7(619) 706-5766', '20 Sycamore Drive, Longtown,CA6 5NZ');
 INSERT INTO Пользователи
-VALUES (47, N'Фадеев Вениамин Робертович', '+7(847) 493-1972', '57 Sarsfield Road, Workington,CA14 5BZ');
+VALUES (47, N'Выставкин Вениамин Робертович', '+7(847) 493-1972', '57 Sarsfield Road, Workington,CA14 5BZ');
 INSERT INTO Пользователи
-VALUES (48, N'Орехов Бенедикт Богуславович', '+7(401) 691-3795', '31 Hall Park View, Workington,CA14 4AG');
+VALUES (48, N'Толстунов Бенедикт Богуславович', '+7(401) 691-3795', '31 Hall Park View, Workington,CA14 4AG');
 INSERT INTO Пользователи
-VALUES (49, N'Данилов Георгий Альбертович', '+7(550) 300-2204', '18 Ashness Close, Whitehaven,CA28 9RR');
+VALUES (49, N'Тарасов Георгий Альбертович', '+7(550) 300-2204', '18 Ashness Close, Whitehaven,CA28 9RR');
 INSERT INTO Пользователи
-VALUES (50, N'Фадеев Сергей Георгьевич', '+7(580) 361-6908', '1 Clint View, Croglin,CA4 9RU');
+VALUES (50, N'Ашанин Сергей Георгьевич', '+7(580) 361-6908', '1 Clint View, Croglin,CA4 9RU');
 INSERT INTO Пользователи
-VALUES (51, N'Фёдоров Станислав Владиславович', '+7(383) 408-0344', '20 Hawkshead Avenue, Workington,CA14 3HP');
+VALUES (51, N'Горшков Станислав Владиславович', '+7(383) 408-0344', '20 Hawkshead Avenue, Workington,CA14 3HP');
 INSERT INTO Пользователи
-VALUES (52, N'Наумов Ираклий Аркадьевич', '+7(925) 351-2752', '2 Chaucer Road, Workington,CA14 4HH');
+VALUES (52, N'Муратов Ираклий Аркадьевич', '+7(925) 351-2752', '2 Chaucer Road, Workington,CA14 4HH');
 INSERT INTO Пользователи
-VALUES (53, N'Григорьев Фрол Максимович', '+7(219) 222-3187', 'Haddon Cottage, 48 The Green, Dalston,CA5 7QD');
+VALUES (53, N'Безруков Фрол Максимович', '+7(219) 222-3187', 'Haddon Cottage, 48 The Green, Dalston,CA5 7QD');
 INSERT INTO Пользователи
-VALUES (54, N'Наумов Ираклий Аркадьевич', '+7(248) 968-5701', '4 Castle Mount, Armathwaite,CA4 9PE');
+VALUES (54, N'Черваков Ираклий Аркадьевич', '+7(248) 968-5701', '4 Castle Mount, Armathwaite,CA4 9PE');
 INSERT INTO Пользователи
-VALUES (55, N'Зыков Донат Лукьевич', '+7(557) 918-6680', '14 Buchanan Road, Carlisle,CA2 4QD');
+VALUES (55, N'Киреев Донат Лукьевич', '+7(557) 918-6680', '14 Buchanan Road, Carlisle,CA2 4QD');
 INSERT INTO Пользователи
-VALUES (56, N'Сафонов Тимофей Ярославович', '+7(382) 445-8121', 'Cooper House Stables, North Stainmore,CA17 4DZ');
+VALUES (56, N'Масликов Тимофей Ярославович', '+7(382) 445-8121', 'Cooper House Stables, North Stainmore,CA17 4DZ');
 INSERT INTO Пользователи
-VALUES (57, N'Воронцов Иннокентий Федорович', '+7(241) 922-9296', 'Merryhill House, Egremont,CA22 2US');
+VALUES (57, N'Потапов Иннокентий Федорович', '+7(241) 922-9296', 'Merryhill House, Egremont,CA22 2US');
 INSERT INTO Пользователи
-VALUES (58, N'Нестеров Владислав Глебович', '+7(610) 995-3741', '6 Hothfield Court, Appleby-In-Westmorland,CA16 6JD');
+VALUES (58, N'Хобачев Владислав Глебович', '+7(610) 995-3741', '6 Hothfield Court, Appleby-In-Westmorland,CA16 6JD');
 INSERT INTO Пользователи
-VALUES (59, N'Игнатьев Митрофан Валерьевич', '+7(550) 300-2204', '2 Station Road Terrace, Threlkeld,CA12 4AL');
+VALUES (59, N'Гришучков Митрофан Валерьевич', '+7(550) 300-2204', '2 Station Road Terrace, Threlkeld,CA12 4AL');
 INSERT INTO Пользователи
-VALUES (60, N'Терентьев Аркадий Михаилович', '+7(790) 477-2419', '2 Beech Lane, Cockermouth,CA13 9HG');
+VALUES (60, N'Денисов Аркадий Михаилович', '+7(790) 477-2419', '2 Beech Lane, Cockermouth,CA13 9HG');
 
 INSERT INTO Разработчики (IDПользователя)
 VALUES (1)

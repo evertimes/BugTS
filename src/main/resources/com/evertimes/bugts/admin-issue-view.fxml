@@ -54,10 +54,18 @@
          </padding></Label>
         <ComboBox fx:id="assignee" prefHeight="26.0" prefWidth="264.0" />
     </HBox>
-    <Button text="Сохранить">
+    <Button onAction="#updateIssue" text="Сохранить">
       <VBox.margin>
          <Insets bottom="15.0" left="610.0" right="15.0" top="15.0" />
       </VBox.margin></Button>
+    <HBox spacing="50">
+        <Label text="Добавить метку:" />
+        <ComboBox fx:id="labelsToAdd" prefHeight="26.0" prefWidth="104.0" />
+        <Button onAction="#addLabel" text="Добавить"/>
+      <VBox.margin>
+         <Insets left="25.0" />
+      </VBox.margin>
+    </HBox>
     <HBox fx:id="labels" spacing="50.0">
         <VBox>
             <Label prefHeight="18.0" prefWidth="56.0" text="Метки:" />

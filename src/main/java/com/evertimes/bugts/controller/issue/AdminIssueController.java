@@ -8,7 +8,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import org.controlsfx.control.HyperlinkLabel;
 
 import java.net.URL;
@@ -27,7 +26,7 @@ public class AdminIssueController implements Initializable {
     public ComboBox<Priority> priority;
     public TextField dateAssigned;
     public ComboBox<ProjectDev> assignee;
-    public ComboBox labelsToAdd;
+    public ComboBox<Label> labelsToAdd;
 
     private MsSqlDAO dao;
 
@@ -40,6 +39,7 @@ public class AdminIssueController implements Initializable {
         addDevs();
         addPriorities();
         addStatuses();
+        loadLabels();
     }
 
 
@@ -95,6 +95,7 @@ public class AdminIssueController implements Initializable {
     }
 
     private void addLabels() {
+        labels.getChildren().clear();
         List<Label> labelList = dao
                 .getAllIssueLabels(Session.adminIssue.getIssueID());
         for (Label label : labelList) {
@@ -113,7 +114,13 @@ public class AdminIssueController implements Initializable {
                 status.getSelectionModel().getSelectedItem().getStatusID(),
                 priority.getSelectionModel().getSelectedItem().getPriorityID());
     }
-
-    public void addLabel(ActionEvent actionEvent) {
+    private void loadLabels(){
+        labelsToAdd.getItems().addAll(dao.getAllLabels());
+        labelsToAdd.getSelectionModel().selectFirst();
+    }
+    public void addLabelToIssue(ActionEvent actionEvent) {
+        Label label = labelsToAdd.getSelectionModel().getSelectedItem();
+        dao.addLabelToIssue(label.getLabelID(),Session.adminIssue.getIssueID());
+        addLabels();
     }
 }

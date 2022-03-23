@@ -172,6 +172,23 @@ public class MsSqlDAO {
         return labels;
     }
 
+    public List<Label> getAllLabels() {
+        List<Label> labels = new ArrayList<>();
+        try (PreparedStatement statement = connection
+                .prepareStatement("" +
+                        "SELECT IDМетки,ИмяМетки,ОписаниеМетки " +
+                        "FROM Метки"); ResultSet rs = statement.executeQuery()) {
+            while (rs.next()) {
+                labels.add(new Label(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return labels;
+    }
+
     public void addNewIssue(String projectName,
                             String commentaryText,
                             int testerID) throws SQLException {
@@ -407,21 +424,22 @@ public class MsSqlDAO {
         try (PreparedStatement ps = connection.prepareStatement(
                 "SELECT IDПриоритета, ИмяПриоритета from Приоритеты"
         ); ResultSet rs = ps.executeQuery()) {
-            while(rs.next()){
-                priorities.add(new Priority(rs.getInt(1),rs.getString(2)));
+            while (rs.next()) {
+                priorities.add(new Priority(rs.getInt(1), rs.getString(2)));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return priorities;
     }
+
     public List<Status> getAllStatuses() {
         List<Status> statuses = new ArrayList<>();
         try (PreparedStatement ps = connection.prepareStatement(
                 "SELECT IDСтатуса, ИмяСтатуса from Статусы"
         ); ResultSet rs = ps.executeQuery()) {
-            while(rs.next()){
-                statuses.add(new Status(rs.getInt(1),rs.getString(2)));
+            while (rs.next()) {
+                statuses.add(new Status(rs.getInt(1), rs.getString(2)));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -429,26 +447,37 @@ public class MsSqlDAO {
         return statuses;
     }
 
-    public void updateAdminIssue(int issueID, String developerName,int statusID,int priorityID){
-        try(CallableStatement ps = connection.prepareCall("{call updateAdminIssue (?,?,?,?)}")){
-            ps.setInt(1,issueID);
-            System.out.println("LOG dao issueID "+ issueID);
-            ps.setString(2,developerName);
+    public void updateAdminIssue(int issueID, String developerName, int statusID, int priorityID) {
+        try (CallableStatement ps = connection.prepareCall("{call updateAdminIssue (?,?,?,?)}")) {
+            ps.setInt(1, issueID);
+            System.out.println("LOG dao issueID " + issueID);
+            ps.setString(2, developerName);
             System.out.println("LOG dao " + statusID);
-            ps.setInt(3,statusID);
-            ps.setInt(4,priorityID);
-            System.out.println("Updated lines= "+ ps.executeUpdate());
-        }catch (SQLException e){
-                e.printStackTrace();
+            ps.setInt(3, statusID);
+            ps.setInt(4, priorityID);
+            System.out.println("Updated lines= " + ps.executeUpdate());
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    public void setIssueStatus(int issueID, int issueStatus){
-        try(PreparedStatement ps = connection.prepareStatement(
+    public void setIssueStatus(int issueID, int issueStatus) {
+        try (PreparedStatement ps = connection.prepareStatement(
                 "UPDATE Дефекты SET IDСтатуса = ? WHERE IDДефекта = ?"
-        )){
-            ps.setInt(1,issueStatus);
-            ps.setInt(2,issueID);
+        )) {
+            ps.setInt(1, issueStatus);
+            ps.setInt(2, issueID);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addLabelToIssue(int labelID, int issueID){
+        try(PreparedStatement ps = connection.prepareStatement("" +
+                "INSERT INTO ДефектыСМетками VALUES (?,?)")){
+            ps.setInt(1,issueID);
+            ps.setInt(2,labelID);
             ps.executeUpdate();
         }catch (SQLException e){
             e.printStackTrace();

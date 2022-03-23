@@ -24,7 +24,7 @@ public class LoginController {
     private void tryLogin(int id) {
         try {
             Session.userId = id;
-            if(id == 0){
+            if (id == 0) {
                 Runner.setRoot("global-admin-view");
                 return;
             }

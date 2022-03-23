@@ -60,8 +60,8 @@
       </VBox.margin></Button>
     <HBox spacing="50">
         <Label text="Добавить метку:" />
-        <ComboBox fx:id="labelsToAdd" prefHeight="26.0" prefWidth="104.0" />
-        <Button onAction="#addLabel" text="Добавить"/>
+        <ComboBox fx:id="labelsToAdd" prefHeight="26.0" prefWidth="170.0" />
+        <Button onAction="#addLabelToIssue" text="Добавить" />
       <VBox.margin>
          <Insets left="25.0" />
       </VBox.margin>

@@ -102,25 +102,25 @@ public class DeveloperIssueController implements Initializable {
 
     public void resolve(ActionEvent actionEvent) {
         status.setText("Исправлен");
-        dao.setIssueStatus(Session.developerIssue.getIssueID(),3);
+        dao.setIssueStatus(Session.developerIssue.getIssueID(), 3);
         setButtonDisabled();
     }
 
     public void cancelResolve(ActionEvent actionEvent) {
         status.setText("Не исправлен");
-        dao.setIssueStatus(Session.developerIssue.getIssueID(),4);
+        dao.setIssueStatus(Session.developerIssue.getIssueID(), 4);
         setButtonDisabled();
     }
 
     public void sendDouble(ActionEvent actionEvent) {
         status.setText("Дубль");
-        dao.setIssueStatus(Session.developerIssue.getIssueID(),5);
+        dao.setIssueStatus(Session.developerIssue.getIssueID(), 5);
         setButtonDisabled();
     }
 
     public void notReproduce(ActionEvent actionEvent) {
         status.setText("Не воспроизводимо");
-        dao.setIssueStatus(Session.developerIssue.getIssueID(),6);
+        dao.setIssueStatus(Session.developerIssue.getIssueID(), 6);
         setButtonDisabled();
     }
 }

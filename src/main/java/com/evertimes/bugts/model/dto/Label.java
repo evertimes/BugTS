@@ -34,4 +34,9 @@ public class Label {
     public void setLabelDescription(String labelDescription) {
         this.labelDescription = labelDescription;
     }
+
+    @Override
+    public String toString() {
+        return labelName;
+    }
 }

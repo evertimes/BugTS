@@ -39,4 +39,24 @@ public class Label {
     public String toString() {
         return labelName;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Label label = (Label) o;
+
+        if (labelID != label.labelID) return false;
+        if (labelName != null ? !labelName.equals(label.labelName) : label.labelName != null) return false;
+        return labelDescription != null ? labelDescription.equals(label.labelDescription) : label.labelDescription == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = labelID;
+        result = 31 * result + (labelName != null ? labelName.hashCode() : 0);
+        result = 31 * result + (labelDescription != null ? labelDescription.hashCode() : 0);
+        return result;
+    }
 }

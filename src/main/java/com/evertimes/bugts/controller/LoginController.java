@@ -25,7 +25,7 @@ public class LoginController {
         try {
             Session.userId = id;
             if (id == 0) {
-                Runner.setRoot("global-admin-view");
+                Runner.setRoot("zero-view");
                 return;
             }
             switch (new MsSqlDAO().getUserRole(id)) {

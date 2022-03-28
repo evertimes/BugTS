@@ -14,20 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MsSqlDAO {
-    //TODO: Разработчик
-    //Получение всех дефектов для пользователя
-    //Получение закрытых дефектов
-    //Сортировка по приоритету
-    //TODO: Администратор
-    //Получение новых дефектов.
-    //Присовоение меток
-    //Получение всех дефектов (все в удобном виде);
-    //Получение всех пользователей
-    //Создание пользователя
-    //TODO: Тестировщик
-    //Добавление нового дефекта
-    //TODO: Все
-    //Добавление комментария
     Connection connection;
 
     public MsSqlDAO() {
@@ -484,19 +470,42 @@ public class MsSqlDAO {
         }
     }
 
-    public void addNewUser(User user, Role role) {
+    public void updateLabel(int id, String name, String description){
+        try(PreparedStatement ps = connection.prepareStatement("UPDATE Метки " +
+                "SET ИмяМетки = ?, ОписаниеМетки=? " +
+                "WHERE IDМетки=?")){
+            ps.setInt(3,id);
+            ps.setString(1,name);
+            ps.setString(2,description);
+            ps.executeUpdate();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+    }
+    public void removeLabel(int id){
+        try(PreparedStatement ps = connection.prepareStatement("" +
+                "DELETE FROM Метки " +
+                "WHERE IDМетки = ?")){
+            ps.setInt(1,id);
+            ps.executeUpdate();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+    }
+    public void addLabel(int id, String name, String description){
+        try(PreparedStatement ps = connection.prepareStatement("" +
+                "INSERT INTO Метки " +
+                "VALUES (?,?,?)")){
+            ps.setInt(1,id);
+            ps.setString(2,name);
+            ps.setString(3,description);
+            ps.executeUpdate();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
 
     }
 
-    public void assignUserToProject() {
-
-    }
-
-    public void getMyProjects() {
-
-    }
-
-    public void assignIssueToDeveloper(int issueId, int developerId) {
-
-    }
 }

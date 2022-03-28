@@ -56,7 +56,13 @@ public class Runner extends Application {
             stageAccessor.setHeight(500);
             URL myUrl = Runner.class.getResource(fxml + ".fxml");
             fxmlLoader = new FXMLLoader(myUrl);
-        } else {
+        } else if (fxml.compareTo("zero-view") == 0) {
+            stageAccessor.setTitle("Управление");
+            stageAccessor.setWidth(900);
+            stageAccessor.setHeight(500);
+            URL myUrl = Runner.class.getResource(fxml + ".fxml");
+            fxmlLoader = new FXMLLoader(myUrl);
+        }else {
             throw new UnsupportedOperationException("no such view");
         }
         return fxmlLoader.load();

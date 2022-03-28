@@ -106,7 +106,7 @@ CREATE TABLE ДефектыСМетками
     CONSTRAINT FK_ДефектыСМетками_К_Дефекты
         FOREIGN KEY (IDДефекта) REFERENCES Дефекты (IDДефекта),
     CONSTRAINT FK_ДефектыСМетками_К_Меткам
-        FOREIGN KEY (IDМетки) REFERENCES Метки (IDМетки),
+        FOREIGN KEY (IDМетки) REFERENCES Метки (IDМетки) ON DELETE CASCADE,
 )
 CREATE TABLE Комментарии
 (

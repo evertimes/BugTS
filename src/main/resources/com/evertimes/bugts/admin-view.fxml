@@ -39,21 +39,6 @@
                         </AnchorPane>
                     </content>
                 </Tab>
-                <Tab text="Пользователи">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                    </content>
-                </Tab>
-                <Tab text="Проекты">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                    </content>
-                </Tab>
-                <Tab text="Метки">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                    </content>
-                </Tab>
             </tabs>
         </TabPane>
         <Button mnemonicParsing="false" onAction="#exit" text="Выйти" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="2.0" />

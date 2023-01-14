@@ -1,21 +1,28 @@
 package com.evertimes.bugts.model.dao;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class ConnectionPool {
     private static Connection connection;
+    private static ResourceBundle bundle = ResourceBundle.getBundle("connection");
+    public static String connectionString;
+    public static boolean isReady = true;
 
     public static Connection getConnection() {
         if (connection == null) {
             try {
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-                //String connectionUrl = "jdbc:sqlserver://Andrey\\MSSQLSERVER;database=BugTracker;IntegratedSecurity=true";
-                String connectionUrl = "jdbc:sqlserver://localhost;database=BugTracker;user=SA;password=Password1";
-                connection = DriverManager.getConnection(connectionUrl);
+                connection = DriverManager.getConnection(connectionString);
+                isReady=true;
             } catch (ClassNotFoundException | SQLException e) {
-                e.printStackTrace();
+                isReady = false;
+
             }
         }
         return connection;

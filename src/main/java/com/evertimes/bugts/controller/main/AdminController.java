@@ -13,6 +13,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -37,6 +38,7 @@ public class AdminController implements Initializable {
     public TableColumn priorityName;
     public TableColumn moreButton;
     public TableColumn dateRegistered;
+    public Tab tabName;
 
     MsSqlDAO dao = new MsSqlDAO();
 
@@ -61,6 +63,43 @@ public class AdminController implements Initializable {
 
     }
 
+
+    public void seeNewIssues(ActionEvent actionEvent) throws SQLException {
+        tabName.setText("Новые дефекты");
+        notAssignedTable.getItems().clear();
+        List<AdminIssue> issues = dao.getNewIssues(Session.userId);
+        for (AdminIssue issue : issues) {
+            notAssignedTable.getItems().add(issue);
+        }
+    }
+
+    public void seeWaitIssues(ActionEvent actionEvent) throws SQLException {
+        tabName.setText("Дефекты, ожидающие рассмотрения");
+        notAssignedTable.getItems().clear();
+        List<AdminIssue> issues = dao.getWaitIssues(Session.userId);
+        for (AdminIssue issue : issues) {
+            notAssignedTable.getItems().add(issue);
+        }
+    }
+
+    public void seeClosedIssues(ActionEvent actionEvent) throws SQLException {
+        tabName.setText("Закрытые дефекты");
+        notAssignedTable.getItems().clear();
+        List<AdminIssue> issues = dao.getClosedIssues(Session.userId);
+        for (AdminIssue issue : issues) {
+            notAssignedTable.getItems().add(issue);
+        }
+    }
+
+    public void seeAllIssues(ActionEvent actionEvent) throws SQLException {
+        tabName.setText("Все дефекты рассмотрения");
+        notAssignedTable.getItems().clear();
+        List<AdminIssue> issues = dao.getAllIssues(Session.userId);
+        for (AdminIssue issue : issues) {
+            notAssignedTable.getItems().add(issue);
+        }
+    }
+
     Callback<TableColumn<AdminIssue, Void>, TableCell<AdminIssue, Void>> cellFactory = new Callback<>() {
         @Override
         public TableCell<AdminIssue, Void> call(final TableColumn<AdminIssue, Void> param) {
@@ -76,6 +115,7 @@ public class AdminController implements Initializable {
                         AdminIssue data = getTableView().getItems().get(getIndex());
                         Session.adminIssue = data;
                         Stage dialog = new Stage();
+                        dialog.setTitle("Дефект "+ data.getIssueID());
                         FXMLLoader fxmlLoader = new FXMLLoader(Runner.class.getResource("admin-issue-view.fxml"));
                         try {
                             Scene scene = new Scene(fxmlLoader.load(), 740, 500);
@@ -103,35 +143,4 @@ public class AdminController implements Initializable {
         }
     };
 
-    public void seeNewIssues(ActionEvent actionEvent) throws SQLException {
-        notAssignedTable.getItems().clear();
-        List<AdminIssue> issues = dao.getNewIssues(Session.userId);
-        for (AdminIssue issue : issues) {
-            notAssignedTable.getItems().add(issue);
-        }
-    }
-
-    public void seeWaitIssues(ActionEvent actionEvent) throws SQLException {
-        notAssignedTable.getItems().clear();
-        List<AdminIssue> issues = dao.getWaitIssues(Session.userId);
-        for (AdminIssue issue : issues) {
-            notAssignedTable.getItems().add(issue);
-        }
-    }
-
-    public void seeClosedIssues(ActionEvent actionEvent) throws SQLException {
-        notAssignedTable.getItems().clear();
-        List<AdminIssue> issues = dao.getClosedIssues(Session.userId);
-        for (AdminIssue issue : issues) {
-            notAssignedTable.getItems().add(issue);
-        }
-    }
-
-    public void seeAllIssues(ActionEvent actionEvent) throws SQLException {
-        notAssignedTable.getItems().clear();
-        List<AdminIssue> issues = dao.getAllIssues(Session.userId);
-        for (AdminIssue issue : issues) {
-            notAssignedTable.getItems().add(issue);
-        }
-    }
 }

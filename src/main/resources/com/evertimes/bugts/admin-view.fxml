@@ -8,7 +8,7 @@
     <children>
         <TabPane prefHeight="421.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE">
             <tabs>
-                <Tab text="Неназначенные дефекты">
+                <Tab fx:id="tabName" text="Неназначенные дефекты">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="459.0" prefWidth="900.0">
                             <children>
@@ -21,7 +21,6 @@
                                             <TableColumn fx:id="statusName" minWidth="0.0" prefWidth="79.0" text="Статус" />
                                             <TableColumn fx:id="priorityName" prefWidth="125.0" text="Приоритет" />
                                             <TableColumn fx:id="dateRegistered" prefWidth="137.0" text="ДатаНазначения" />
-                                            <TableColumn prefWidth="60.0" text="Метки" />
                                             <TableColumn fx:id="moreButton" prefWidth="109.0" text="Подробнее:" />
                                         </columns>
                                     </TableView>

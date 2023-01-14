@@ -1,33 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.collections.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="500.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.evertimes.bugts.controller.main.ZeroController">
+<AnchorPane prefHeight="500.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.evertimes.bugts.controller.main.ZeroController">
     <children>
-        <TabPane prefHeight="400.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE">
+        <TabPane prefHeight="456.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE">
             <tabs>
                 <Tab text="Пользователи">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="371.0" prefWidth="720.0">
                             <children>
-                                <VBox>
-                                    <TableView fx:id="assignedTable" layoutX="-2.0" prefHeight="200.0"
-                                               prefWidth="900.0">
+                                <VBox prefHeight="443.0" prefWidth="900.0">
+                                    <TableView fx:id="userTable" layoutX="-2.0" prefHeight="308.0" prefWidth="900.0">
                                         <columns>
-                                            <TableColumn fx:id="issueId" text="Id Дефекта"/>
-                                            <TableColumn fx:id="projectName" prefWidth="126.0" text="Имя Проекта"/>
-                                            <TableColumn fx:id="testerName" prefWidth="143.0" text="Имя Тестировщика"/>
-                                            <TableColumn fx:id="statusName" minWidth="0.0" prefWidth="79.0"
-                                                         text="Статус"/>
-                                            <TableColumn fx:id="priorityName" prefWidth="102.0" text="Приоритет"/>
-                                            <TableColumn fx:id="dateAssigned" prefWidth="132.0" text="ДатаНазначения"/>
-                                            <TableColumn prefWidth="72.0" text="Метки"/>
-                                            <TableColumn fx:id="moreButton" prefWidth="125.0" text="Подробнее:"/>
+                                            <TableColumn fx:id="userID" text="Id пользователя" />
+                                            <TableColumn fx:id="fullName" prefWidth="206.0" text="Имя" />
+                                            <TableColumn fx:id="phone" prefWidth="143.0" text="Телефон" />
+                                            <TableColumn fx:id="role" minWidth="0.0" prefWidth="79.0" text="Роль" />
+                                            <TableColumn fx:id="homeAddress" prefWidth="202.0" text="Адрес" />
                                         </columns>
                                     </TableView>
+                                    <Label text="Добавление пользователя:">
+                                        <VBox.margin>
+                                            <Insets left="20.0" right="20.0" top="20.0" />
+                                        </VBox.margin>
+                                        <font>
+                                            <Font name="System Bold" size="14.0" />
+                                        </font>
+                                    </Label>
+                                    <HBox spacing="30">
+                                        <VBox>
+                                            <Label text="Имя" />
+                                            <TextField fx:id="newFullName" />
+                                        </VBox>
+                                        <VBox>
+                                            <Label text="Телефон" />
+                                            <TextField fx:id="newPhone" />
+                                        </VBox>
+                                        <VBox>
+                                            <Label text="Роль" />
+                                            <ComboBox fx:id="newRole">
+                                                <items>
+                                                    <FXCollections fx:factory="observableArrayList">
+                                                        <String fx:value="Разработчик" />
+                                                        <String fx:value="Тестировщик" />
+                                                        <String fx:value="Администратор" />
+                                                    </FXCollections>
+                                                </items>
+                                            </ComboBox>
+                                        </VBox>
+                                        <VBox>
+                                            <Label text="Адрес" />
+                                            <TextField fx:id="newHomeAddress" />
+                                        </VBox>
+                                        <Button onAction="#addNewUser" text="Добавить">
+                                            <HBox.margin>
+                                                <Insets top="15.0" />
+                                            </HBox.margin>
+                                        </Button>
+                                        <VBox.margin>
+                                            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                        </VBox.margin>
+                                    </HBox>
                                 </VBox>
                             </children>
                         </AnchorPane>
@@ -35,47 +74,77 @@
                     </content>
                 </Tab>
                 <Tab text="Проекты">
-
+                    <VBox spacing="20.0">
+                        <TableView fx:id="projectTable" editable="true" layoutX="-2.0" prefHeight="323.0" prefWidth="900.0" tableMenuButtonVisible="true">
+                            <columns>
+                                <TableColumn fx:id="projectID" text="ID Проекта" />
+                                <TableColumn fx:id="projectName" onEditCommit="#changeName" prefWidth="143.0" text="Имя проекта" />
+                                <TableColumn fx:id="projectDescription" minWidth="0.0" onEditCommit="#changeDesc" prefWidth="170.0" text="Описание Проекта" />
+                                <TableColumn fx:id="projectStart" minWidth="0.0" onEditCommit="#changeDesc" prefWidth="170.0" text="Дата начала проекта" />
+                                <TableColumn fx:id="projectSettings" minWidth="0.0" prefWidth="170.0" text="..." />
+                            </columns>
+                        </TableView>
+                        <Label text="Добавление нового проекта">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="20.0" />
+                     </VBox.margin></Label>
+                        <HBox spacing="30">
+                        <VBox>
+                            <Label text="Имя" />
+                            <TextField fx:id="newProjName" />
+                        </VBox>
+                        <VBox>
+                            <Label text="Описание" />
+                            <TextField fx:id="newProjDesc" prefHeight="25.0" prefWidth="397.0" />
+                        </VBox>
+                        <Button onAction="#addNewProject" text="Добавить">
+                            <HBox.margin>
+                                <Insets top="15.0" />
+                            </HBox.margin>
+                        </Button>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                        </HBox>
+                    </VBox>
                 </Tab>
                 <Tab text="Метки">
                     <VBox spacing="20.0">
-                        <TableView fx:id="labelTable" editable="true" layoutX="-2.0" prefHeight="500.0"
-                                   prefWidth="900.0" tableMenuButtonVisible="true">
+                        <TableView fx:id="labelTable" editable="true" layoutX="-2.0" prefHeight="500.0" prefWidth="900.0" tableMenuButtonVisible="true">
                             <columns>
-                                <TableColumn fx:id="labelID" text="ID Метки"/>
-                                <TableColumn fx:id="labelName" onEditCommit="#changeName" prefWidth="143.0"
-                                             text="Имя Метки"/>
-                                <TableColumn fx:id="labelDescription" minWidth="0.0" onEditCommit="#changeDesc"
-                                             prefWidth="170.0" text="Описание Метки"/>
-                                <TableColumn fx:id="deleteLabel" minWidth="0.0"
-                                             prefWidth="170.0" text="..."/>
+                                <TableColumn fx:id="labelID" text="ID Метки" />
+                                <TableColumn fx:id="labelName" onEditCommit="#changeName" prefWidth="143.0" text="Имя Метки" />
+                                <TableColumn fx:id="labelDescription" minWidth="0.0" onEditCommit="#changeDesc" prefWidth="170.0" text="Описание Метки" />
+                                <TableColumn fx:id="deleteLabel" minWidth="0.0" prefWidth="170.0" text="..." />
                             </columns>
                         </TableView>
                         <HBox spacing="30.0">
-                            <Label text="Добавить:"/>
+                            <Label text="Добавить:" />
                             <VBox spacing="10">
-                                <Label text="Имя"/>
-                                <TextField fx:id="newLabelName"/>
+                                <Label text="Имя" />
+                                <TextField fx:id="newLabelName" />
                             </VBox>
                             <VBox spacing="10">
-                                <Label text="Описание"/>
-                                <TextField fx:id="newLabelDesc"/>
+                                <Label text="Описание" />
+                                <TextField fx:id="newLabelDesc" />
                             </VBox>
-                            <Button onAction="#addLabel" text="Добавить"/>
+                            <Button onAction="#addLabel" text="Добавить" />
                             <Button onAction="#saveLabels" text="Сохранить изменения">
                                 <HBox.margin>
-                                    <Insets left="90.0"/>
+                                    <Insets left="90.0" />
                                 </HBox.margin>
                             </Button>
                             <VBox.margin>
-                                <Insets left="20.0"/>
+                                <Insets left="20.0" />
                             </VBox.margin>
                         </HBox>
                     </VBox>
                 </Tab>
             </tabs>
         </TabPane>
-        <Button mnemonicParsing="false" onAction="#exit" text="Выйти" AnchorPane.rightAnchor="15.0"
-                AnchorPane.topAnchor="2.0"/>
+        <Button mnemonicParsing="false" onAction="#exit" text="Выйти" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="2.0" />
     </children>
 </AnchorPane>

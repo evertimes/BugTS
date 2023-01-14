@@ -73,7 +73,12 @@ public class TesterController implements Initializable {
             foundTable.getItems().add(issue);
         }
     }
-
+    public void addNewIssue(ActionEvent actionEvent) throws SQLException {
+        String projectName = projectNamePrompt.getValue().toString();
+        String commentary = commentaryPrompt.getText();
+        dao.addNewIssue(projectName, commentary, Session.userId);
+        refreshIssues();
+    }
     Callback<TableColumn<TesterIssue, Void>, TableCell<TesterIssue, Void>> cellFactory = new Callback<>() {
         @Override
         public TableCell<TesterIssue, Void> call(final TableColumn<TesterIssue, Void> param) {
@@ -89,6 +94,7 @@ public class TesterController implements Initializable {
                         TesterIssue data = getTableView().getItems().get(getIndex());
                         Session.testerIssue = data;
                         Stage dialog = new Stage();
+                        dialog.setTitle("Дефект "+ data.getIssueID());
                         FXMLLoader fxmlLoader = new FXMLLoader(Runner.class.getResource("tester-issue-view.fxml"));
                         try {
                             Scene scene = new Scene(fxmlLoader.load(), 740, 400);
@@ -115,10 +121,5 @@ public class TesterController implements Initializable {
         }
     };
 
-    public void addNewIssue(ActionEvent actionEvent) throws SQLException {
-        String projectName = projectNamePrompt.getValue().toString();
-        String commentary = commentaryPrompt.getText();
-        dao.addNewIssue(projectName, commentary, Session.userId);
-        refreshIssues();
-    }
+
 }

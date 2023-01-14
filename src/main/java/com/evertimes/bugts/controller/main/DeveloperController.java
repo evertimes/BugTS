@@ -18,6 +18,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Border;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -86,7 +87,9 @@ public class DeveloperController implements Initializable {
                         try {
                             Scene scene = new Scene(fxmlLoader.load(), 740, 400);
                             dialog.setScene(scene);
-                            dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
+                            Stage node = (Stage)((Node) event.getSource()).getScene().getWindow();
+                            dialog.setTitle("Дефект "+ data.getIssueID());
+                            dialog.initOwner((Window)node);
                             dialog.initModality(Modality.APPLICATION_MODAL);
                             dialog.showAndWait();
                             refreshIssues();

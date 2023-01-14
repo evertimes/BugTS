@@ -28,7 +28,7 @@ CREATE TABLE Метки
 CREATE TABLE Пользователи
 (
     IDПользователя INT PRIMARY KEY,
-    ФИО            NVARCHAR(50),
+    ФИО            NVARCHAR(50) UNIQUE,
     Телефон        NVARCHAR(20),
     ДомашнийАдрес  NVARCHAR(100)
 )
@@ -117,220 +117,13 @@ CREATE TABLE Комментарии
         CONSTRAINT FK_Комментарии_К_Дефектам
             FOREIGN KEY (IDДефекта) REFERENCES Дефекты (IDДефекта),
 )
-GO
-CREATE RULE СтадииПроекта AS @x = N'Начало работ'
-    OR @x = N'Проектирование'
-    OR @x = N'Разработка'
-    OR @x = N'Завершение работ'
-    OR @x = N'Работа завершена'
-    OR @x = N'Сопровождение'
-GO
-exec sp_bindrule N'СтадииПроекта', N'Проекты.ЭтапРабот'
-GO
-CREATE RULE NOT_NEGATIVE AS @x >= 0
-GO
-EXEC sp_bindrule 'NOT_NEGATIVE', N'Разработчики.ЧислоРешенныхДефектов'
-GO
-EXEC sp_bindrule 'NOT_NEGATIVE', N'Тестировщики.ЧислоНайденныхДефектов'
--- Триггер для вставки в таблицу тестировщиков
-GO
-CREATE TRIGGER CHECK_USER_ONE_ROLE_TEST
-    on Тестировщики
-    INSTEAD OF INSERT AS
-    Declare
-        cur CURSOR LOCAL FORWARD_ONLY FAST_FORWARD FOR (Select IDПользователя
-                                                        from inserted);
-    Declare
-        @IDПользователя varchar(50)
-    OPEN cur;
-    FETCH NEXT FROM cur INTO @IDПользователя
-    WHILE (@@FETCH_STATUS = 0)
-        BEGIN
-            if (@IDПользователя in (Select IDПользователя from Администраторы))
-                print (N'Пользователь с ID ' + CONVERT(varchar(6), @IDПользователя) + N' уже является администратором')
-            else
-                if (@IDПользователя in (Select IDПользователя from Разработчики))
-                    print (N'Пользователь с ID ' + CONVERT(varchar(6), @IDПользователя) +
-                           N' уже является разработчиком')
-                else
-                    INSERT INTO Тестировщики(IDПользователя) VALUES (@IDПользователя)
-            FETCH NEXT FROM cur INTO @IDПользователя
-        END
-    CLOSE cur;
-    DEALLOCATE cur;
-GO
+CREATE TABLE LogPass
+(
+    IDПользователя int PRIMARY KEY,
+    Пароль nvarchar(20)
+    CONSTRAINT defaultPass DEFAULT '0'
+)
 
--- Триггер для вставки в таблицу администраторов
-CREATE TRIGGER CHECK_USER_ONE_ROLE_ADM
-    on Администраторы
-    INSTEAD OF INSERT AS
-    Declare
-        cur CURSOR FORWARD_ONLY LOCAL FAST_FORWARD FOR (Select IDПользователя
-                                                        from inserted);
-    Declare
-        @IDПользователя varchar(50)
-    OPEN cur;
-    FETCH NEXT FROM cur INTO @IDПользователя
-    WHILE (@@FETCH_STATUS = 0)
-        BEGIN
-            if (@IDПользователя in (Select IDПользователя from Разработчики))
-                print (N'Пользователь с ID ' + CONVERT(varchar(6), @IDПользователя) + N' уже является разработчиком')
-            else
-                if (@IDПользователя in (Select IDПользователя from Тестировщики))
-                    print (N'Пользователь с ID ' + CONVERT(varchar(6), @IDПользователя) +
-                           N' уже является Тестировщиком')
-                else
-                    INSERT INTO Администраторы(IDПользователя) VALUES (@IDПользователя)
-            FETCH NEXT FROM cur INTO @IDПользователя
-        END
-    CLOSE cur;
-    DEALLOCATE cur;
-GO
-
--- Триггер для вставки в таблицу разработчиков
-CREATE TRIGGER CHECK_USER_ONE_ROLE_DEV
-    on Разработчики
-    INSTEAD OF INSERT AS
-    Declare
-        cur CURSOR FORWARD_ONLY LOCAL FAST_FORWARD FOR (Select IDПользователя
-                                                        from inserted);
-    Declare
-        @IDПользователя varchar(50)
-    OPEN cur;
-    FETCH NEXT FROM cur INTO @IDПользователя
-    WHILE (@@FETCH_STATUS = 0)
-        BEGIN
-            if (@IDПользователя in (Select IDПользователя from Администраторы))
-                print (N'Пользователь с ID ' + CONVERT(varchar(6), @IDПользователя) + N' уже является Администратором')
-            else
-                if (@IDПользователя in (Select IDПользователя from Тестировщики))
-                    print (N'Пользователь с ID ' + CONVERT(varchar(6), @IDПользователя) +
-                           N' уже является Тестировщиком')
-                else
-                    INSERT INTO Разработчики(IDПользователя) VALUES (@IDПользователя)
-            FETCH NEXT FROM cur INTO @IDПользователя
-        END
-    CLOSE cur;
-    DEALLOCATE cur;
-GO
-CREATE TRIGGER UPDATE_FINDED_COUNT
-    on Дефекты
-    AFTER INSERT AS
-    DECLARE
-        @IDТестировщика int
-    DECLARE
-        cur CURSOR FORWARD_ONLY LOCAL FAST_FORWARD FOR SELECT IDТестировщика
-                                                       from inserted
-    OPEN cur
-    WHILE (@@FETCH_STATUS = 0)
-        BEGIN
-            UPDATE Тестировщики
-            SET ЧислоНайденныхДефектов = ЧислоНайденныхДефектов + 1
-            WHERE Тестировщики.IDПользователя = (@IDТестировщика)
-            FETCH NEXT FROM cur INTO @IDТестировщика
-        END
-    CLOSE cur
-    DEALLOCATE cur
-GO
-CREATE TRIGGER UPDATE_RESOLVED_COUNT
-    on Дефекты
-    AFTER UPDATE AS
-    if ((Select COUNT(*)
-         from inserted
-         WHERE IDСтатуса = 9) > 0)
-        BEGIN
-            DECLARE @IDРазработчика int
-            DECLARE cur CURSOR LOCAL FORWARD_ONLY FAST_FORWARD FOR
-                (Select IDПользователя
-                 from (SELECT inserted.IDДефекта
-                       from inserted
-                                join deleted on inserted.IDДефекта = deleted.IDДефекта
-                       WHERE inserted.IDСтатуса = 9
-                         AND deleted.IDСтатуса != 9)
-                          as t1
-                          join РазработчикиРешающиеДефекты
-                               on t1.IDДефекта = РазработчикиРешающиеДефекты.IDДефекта)
-            OPEN cur
-            FETCH NEXT FROM cur INTO @IDРазработчика
-            WHILE (@@FETCH_STATUS = 0)
-                BEGIN
-                    UPDATE Разработчики
-                    SET ЧислоРешенныхДефектов = ЧислоРешенныхДефектов + 1
-                    WHERE Разработчики.IDПользователя = @IDРазработчика
-                    FETCH NEXT FROM cur INTO @IDРазработчика
-                END
-            CLOSE cur
-            DEALLOCATE cur
-        END
-GO
-CREATE TRIGGER ПринадлежитЛиТестировщикКПроекту
-    ON Дефекты
-    INSTEAD OF INSERT AS
-    DECLARE
-        cur CURSOR LOCAL FORWARD_ONLY FAST_FORWARD FOR
-            SELECT IDДефекта, IDПроекта, IDТестировщика, IDСтатуса, IDПриоритета, ДатаИВремяРегистрации
-            from inserted
-    Declare
-        @IDДефекта int
-    Declare
-        @IDПроекта int
-    Declare
-        @IDТестировщика int
-    Declare
-        @IDСтатуса int
-    Declare
-        @IDПриоритета int
-    Declare
-        @ДатаИВремя datetime
-    OPEN cur
-    FETCH NEXT FROM cur INTO @IDДефекта,@IDПроекта,@IDТестировщика,@IDСтатуса, @IDПриоритета, @ДатаИВремя
-    WHILE(@@FETCH_STATUS = 0)
-        BEGIN
-            IF @IDТестировщика in (Select IDПользователя from ПользователиВПроектах where IDПроекта = @IDПроекта)
-                INSERT INTO Дефекты
-                VALUES (@IDДефекта, @IDПроекта, @IDТестировщика, @IDСтатуса, @IDПриоритета, @ДатаИВремя)
-            ELSE
-                print (N'Тестировщик c ID ' + CONVERT(varchar(5), @IDТестировщика) + N' не принадлежит проекту с ID ' +
-                       CONVERT(varchar(5), @IDПроекта))
-            FETCH NEXT FROM cur INTO @IDДефекта,@IDПроекта,@IDТестировщика,@IDСтатуса, @IDПриоритета, @ДатаИВремя
-        END
-    CLOSE cur
-    DEALLOCATE cur
-GO
-CREATE TRIGGER ПринадлежитЛиРазработчикКПроекту
-    ON РазработчикиРешающиеДефекты
-    INSTEAD OF INSERT AS
-    DECLARE
-        cur CURSOR LOCAL FORWARD_ONLY FAST_FORWARD FOR SELECT IDПользователя, IDДефекта, ДатаИВремяНазначения
-                                                       from inserted
-    OPEN cur
-    DECLARE
-        @IDРазработчика int
-    DECLARE
-        @IDДефекта int
-    DECLARE
-        @ДатаИВремяНазначения datetime
-    FETCH NEXT FROM cur INTO @IDРазработчика,@IDДефекта,@ДатаИВремяНазначения
-    WHILE(@@FETCH_STATUS = 0)
-        BEGIN
-            DECLARE @IDПроекта int = (Select IDПроекта from Дефекты where IDДефекта = @IDДефекта)
-            IF @IDРазработчика in (Select IDПользователя from ПользователиВПроектах where IDПроекта = @IDПроекта)
-                INSERT INTO РазработчикиРешающиеДефекты VALUES (@IDДефекта, @IDРазработчика, @ДатаИВремяНазначения)
-            ELSE
-                print (N'Разработчик с ID ' + CONVERT(varchar(5), @IDРазработчика)
-                    + N' не принадлежит проекту с ID ' + CONVERT(varchar(5), @IDПроекта))
-            FETCH NEXT FROM cur INTO @IDРазработчика,@IDДефекта,@ДатаИВремяНазначения
-        END
-    CLOSE cur
-    DEALLOCATE cur
-GO
-CREATE TRIGGER CHANGE_STATUS_TO_ASSIGNED
-    ON РазработчикиРешающиеДефекты
-    AFTER INSERT AS
-    UPDATE Дефекты
-    SET IDСтатуса = 2
-    WHERE IDДефекта in (SELECT IDДефекта from inserted)
-GO
 USE BugTracker
 INSERT INTO Пользователи
 VALUES (1, N'Соловьёв Август Пантелеймонович', '+7(682) 675-3107', 'Merebeck, Kinniside,CA23 3ES');
@@ -1000,3 +793,5 @@ INSERT INTO Комментарии
 VALUES (28, N'Неправильное цветовое оформление', 28, SYSDATETIME())
 INSERT INTO Комментарии
 VALUES (30, N'Старый логотип', 30, SYSDATETIME())
+
+INSERT INTO LogPass (IDПользователя) SELECT IDПользователя from Пользователи

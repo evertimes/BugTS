@@ -4,6 +4,7 @@ import com.evertimes.bugts.model.dto.*;
 import com.evertimes.bugts.model.dto.issue.AdminIssue;
 import com.evertimes.bugts.model.dto.issue.DeveloperIssue;
 import com.evertimes.bugts.model.dto.issue.TesterIssue;
+import javafx.scene.control.TextField;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -15,9 +16,11 @@ import java.util.List;
 
 public class MsSqlDAO {
     Connection connection;
+    public boolean isReady = false;
 
     public MsSqlDAO() {
         connection = ConnectionPool.getConnection();
+        isReady = ConnectionPool.isReady;
     }
 
     public Role getUserRole(int id) throws SQLException {
@@ -112,7 +115,21 @@ public class MsSqlDAO {
     }
 
     public List<User> getAllUsers() {
-        throw new RuntimeException("Not implemented");
+        List<User> users = new ArrayList<>();
+        try (CallableStatement cs = connection
+                .prepareCall("{call getAllUsers}");
+             ResultSet rs = cs.executeQuery()) {
+            while (rs.next()) {
+                users.add(new User(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
     }
 
     public List<Commentary> getAllIssueCommentaries(int issueId) {
@@ -438,6 +455,7 @@ public class MsSqlDAO {
             ps.setInt(1, issueID);
             System.out.println("LOG dao issueID " + issueID);
             ps.setString(2, developerName);
+            System.out.println("LOG DAO user name: " + developerName);
             System.out.println("LOG dao " + statusID);
             ps.setInt(3, statusID);
             ps.setInt(4, priorityID);
@@ -459,53 +477,143 @@ public class MsSqlDAO {
         }
     }
 
-    public void addLabelToIssue(int labelID, int issueID){
-        try(PreparedStatement ps = connection.prepareStatement("" +
-                "INSERT INTO ДефектыСМетками VALUES (?,?)")){
-            ps.setInt(1,issueID);
-            ps.setInt(2,labelID);
+    public void addLabelToIssue(int labelID, int issueID) {
+        try (PreparedStatement ps = connection.prepareStatement("" +
+                "INSERT INTO ДефектыСМетками VALUES (?,?)")) {
+            ps.setInt(1, issueID);
+            ps.setInt(2, labelID);
             ps.executeUpdate();
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void updateLabel(int id, String name, String description){
-        try(PreparedStatement ps = connection.prepareStatement("UPDATE Метки " +
+    public void updateLabel(int id, String name, String description) {
+        try (PreparedStatement ps = connection.prepareStatement("UPDATE Метки " +
                 "SET ИмяМетки = ?, ОписаниеМетки=? " +
-                "WHERE IDМетки=?")){
-            ps.setInt(3,id);
-            ps.setString(1,name);
-            ps.setString(2,description);
+                "WHERE IDМетки=?")) {
+            ps.setInt(3, id);
+            ps.setString(1, name);
+            ps.setString(2, description);
             ps.executeUpdate();
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
     }
-    public void removeLabel(int id){
-        try(PreparedStatement ps = connection.prepareStatement("" +
+
+    public void removeLabel(int id) {
+        try (PreparedStatement ps = connection.prepareStatement("" +
                 "DELETE FROM Метки " +
-                "WHERE IDМетки = ?")){
-            ps.setInt(1,id);
+                "WHERE IDМетки = ?")) {
+            ps.setInt(1, id);
             ps.executeUpdate();
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
     }
-    public void addLabel(int id, String name, String description){
-        try(PreparedStatement ps = connection.prepareStatement("" +
+
+    public void addLabel(int id, String name, String description) {
+        try (PreparedStatement ps = connection.prepareStatement("" +
                 "INSERT INTO Метки " +
-                "VALUES (?,?,?)")){
-            ps.setInt(1,id);
-            ps.setString(2,name);
-            ps.setString(3,description);
+                "VALUES (?,?,?)")) {
+            ps.setInt(1, id);
+            ps.setString(2, name);
+            ps.setString(3, description);
             ps.executeUpdate();
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
     }
 
+    public void addNewUser(String fullName, String newPhone, String newRole, String newHome) {
+        try (CallableStatement ps = connection
+                .prepareCall("{call addNewUser(?,?,?,?)}")) {
+            ps.setString(1, fullName);
+            ps.setString(2, newPhone);
+            ps.setString(3, newRole);
+            ps.setString(4, newHome);
+
+            ps.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public String getPassword(int id) {
+        String password = "";
+        try (PreparedStatement ps = connection.prepareStatement("SELECT Пароль FROM LogPass WHERE IDПользователя = ?")) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    password = rs.getString(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return password;
+    }
+
+    public List<Project> getAllProjects() {
+        List<Project> projects = new ArrayList<>();
+        try (PreparedStatement ps = connection.prepareStatement(
+                "Select IDПроекта,ИмяПроекта,ОписаниеПроекта,ДатаНачала FROM Проекты")
+             ; ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                projects.add(
+                        new Project(
+                                rs.getInt(1),
+                                rs.getString(2),
+                                rs.getString(3),
+                                rs.getTimestamp(4).toLocalDateTime())
+                );
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return projects;
+    }
+
+    public List<User> getProjectUsers(int projectId) {
+        List<User> users = new ArrayList<>();
+        try (CallableStatement cs = connection
+                .prepareCall("{call getProjectUsers (?)}")) {
+            cs.setInt(1, projectId);
+            try (ResultSet rs = cs.executeQuery()) {
+                while (rs.next()) {
+                    users.add(new User(rs.getInt(1),
+                            rs.getString(2),
+                            rs.getString(3),
+                            rs.getString(4),
+                            rs.getString(5)));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+    public void addUserToProject(int userID, int projectId) throws SQLException {
+        String query = "INSERT INTO ПользователиВПроектах (IDПользователя,IDПроекта) VALUES (?,?)";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, userID);
+            ps.setInt(2, projectId);
+            ps.executeUpdate();
+        }
+    }
+
+    public void addNewProject(String newProjName, String newProjDesc) {
+        try (CallableStatement cs = connection
+                .prepareCall("{call addNewProject (?,?)}")) {
+            cs.setString(1, newProjName);
+            cs.setString(2, newProjDesc);
+            cs.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }

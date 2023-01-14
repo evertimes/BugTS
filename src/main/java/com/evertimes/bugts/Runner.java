@@ -16,7 +16,7 @@ public class Runner extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Runner.class.getResource("login-view.fxml"));
-        scene = new Scene(fxmlLoader.load(), 320, 240);
+        scene = new Scene(fxmlLoader.load(), 420, 300);
         stage.setTitle("Система остлеживания ошибок");
         stageAccessor = stage;
         stage.setScene(scene);
@@ -34,8 +34,8 @@ public class Runner extends Application {
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader;
         if (fxml.compareTo("login-view") == 0) {
-            stageAccessor.setWidth(320);
-            stageAccessor.setHeight(240);
+            stageAccessor.setWidth(420);
+            stageAccessor.setHeight(300);
             stageAccessor.setTitle("Система остлеживания ошибок");
             fxmlLoader = new FXMLLoader(Runner.class.getResource(fxml + ".fxml"));
         } else if (fxml.compareTo("developer-view") == 0) {
